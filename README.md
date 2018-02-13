@@ -25,16 +25,16 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	same times happend to origin bitmap is the same size as createScaleBitmap.
 	
 	finaly, we get the below resuly:
-![](https://github.com/minwalker/BitmapUtils/raw/master/BitmapUtils/BitmapUtils/screen_capture/bitmap_utils_page.png)
+![](/BitmapUtils/screen_capture/bitmap_utils_page.png)
 	
 	
 ### operation for save bitmap to file
 	android support same type for bitmap save to file, but different type takes different spaces, the result is as below:
-![](https://github.com/minwalker/BitmapUtils/raw/master/BitmapUtils/BitmapUtils/screen_capture/bitmap_save_pager.png)
+![](/BitmapUtils/screen_capture/bitmap_save_pager.png)
 	
 	as google's webp type is the best, can using in web app, and same cache using in local.
 	
 ### useful operations for bitmap
 	finaly, there is same useful operations for bitmap, most is using the canvas and bitmap to draw again get the result 
 	you want.
-![](https://github.com/minwalker/BitmapUtils/raw/master/BitmapUtils/BitmapUtils/screen_capture/bitmap_corner_operation_page.png)
+![](/BitmapUtils/screen_capture/bitmap_corner_operation_page.png)
