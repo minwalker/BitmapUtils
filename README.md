@@ -13,7 +13,7 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	3、there are some useful operations for bitmap, like oval bitmap, reflected bitmap, corner bitmap and Gauusian Blur.
 	
 ### utils tool description
-	![](https://github.com/minwalker/BitmapUtils/raw/master/BitmapUtils/BitmapUtils/screen_capture/bitmap_log.png)
+	![](https://github.com/minwalker/BitmapUtils/raw/master/BitmapUtils/screen_capture/bitmap_log.png)
 	above image is the log of BitmapUtilsActivity in SampleSize but not createScaleBitmap and using createScaleBitmap, we 
 	found just in sampleSize can get less memory than origin bitmap, but it's width and height is not the same with our 
 	target (200,200), sampleSize can only be close to the target(some time is same), so most time it will be big than our
