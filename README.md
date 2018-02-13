@@ -12,7 +12,7 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	
 	3、there are some useful operations for bitmap, like oval bitmap, reflected bitmap, corner bitmap and Gauusian Blur.
 	
-### utils tool description
+## utils tool description
 ![](/BitmapUtils/screen_capture/bitmap_log.png)
 	above image is the log of BitmapUtilsActivity in SampleSize but not createScaleBitmap and using createScaleBitmap, we 
 	found just in sampleSize can get less memory than origin bitmap, but it's width and height is not the same with our 
@@ -28,13 +28,13 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 ![](/BitmapUtils/screen_capture/bitmap_utils_page.png)
 	
 	
-### operation for save bitmap to file
+## operation for save bitmap to file
 	android support same type for bitmap save to file, but different type takes different spaces, the result is as below:
 ![](/BitmapUtils/screen_capture/bitmap_save_pager.png)
 	
 	as google's webp type is the best, can using in web app, and same cache using in local.
 	
-### useful operations for bitmap
+## useful operations for bitmap
 	finaly, there is same useful operations for bitmap, most is using the canvas and bitmap to draw again get the result 
 	you want.
 ![](/BitmapUtils/screen_capture/bitmap_corner_operation_page.png)
