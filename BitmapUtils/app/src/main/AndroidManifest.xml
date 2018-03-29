@@ -2,6 +2,7 @@
     package="com.ice.bitmaputils">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -21,5 +22,17 @@
         <activity android:name=".activity.BitmapUtilsAcivity"/>
         <activity android:name=".activity.CornerBitmapActivity"/>
         <activity android:name=".activity.SaveBitmapActivity"/>
+        <activity android:name=".activity.HttpActivity"/>
+        <service android:name=".services.HttpService"/>
+        <provider
+            android:authorities="com.ice.bitmaputils.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                />
+        </provider>
     </application>
 </manifest>

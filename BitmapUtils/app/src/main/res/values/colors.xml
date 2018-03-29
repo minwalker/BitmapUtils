@@ -6,4 +6,11 @@
 
     <color name="begin_color">#60ffffff</color>
     <color name="end_color">#00ffffff</color>
+    <color name="item_title_color">#ff4e4e4e</color>
+    <color name="item_summary_color">#ffaeaeae</color>
+    <color name="item_version_color">#ff6d6d6d</color>
+
+    <color name="progress_fore_color">#ff00ddff</color>
+    <color name="progress_back_color">#ff00ddff</color>
+    <color name="progress_text_color">#3F51B5</color>
 </resources>

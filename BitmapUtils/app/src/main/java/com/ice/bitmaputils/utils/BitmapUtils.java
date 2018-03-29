@@ -62,7 +62,7 @@ public class BitmapUtils {
         Bitmap.CompressFormat format = getDecodeType(type);
         path = formatPath(path,format);
 
-        if(!checkDirExist(path)){
+        if(!FileUtils.checkDirExist(path)){
             Log.e(TAG,"decodeBitmapToFile fail save dir is no exit");
             return false;
         }
@@ -99,33 +99,6 @@ public class BitmapUtils {
 
         return false;
     }
-
-    /**
-     * method for check dir exist or no, if no try to create it
-     * @param path origin file path
-     * @return whether has this dir
-     * **/
-    private static boolean checkDirExist(String path){
-        if(TextUtils.isEmpty(path)) {
-            return false;
-        }
-
-        try {
-            String dir = path.substring(0, path.lastIndexOf('/') + 1);
-            Log.d(TAG, "checkDirExist dir path: " + dir);
-            File file = new File(dir);
-            if(!file.exists()){
-                return file.mkdirs();
-            } else {
-                return true;
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "checkDirExist fail for exception");
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 
     /**
      * @param type support TYPE_PNG, TYPE_JPEG, TYPE_WEBP
@@ -240,12 +213,12 @@ public class BitmapUtils {
      * */
     public static Bitmap createScaleBitmapFromRes(Context context, int resid, int width, int height, BitmapFactory.Options options) {
         if(resid <= 0) {
-            Log.e(TAG,"createScaleBitmapFroRes fail for resource id is invalid");
+            Log.e(TAG,"createScaleBitmapFromRes fail for resource id is invalid");
             return null;
         }
 
         if(width<=0 || height<=0) {
-            Log.e(TAG,"createScaleBitmapFroRes fail for target width or height is less than 0");
+            Log.e(TAG,"createScaleBitmapFromRes fail for target width or height is less than 0");
             return null;
         }
 
@@ -288,12 +261,12 @@ public class BitmapUtils {
      * */
     public static Bitmap createScaleBitmapFroUri(Context context, Uri uri, int width, int height, BitmapFactory.Options options) {
         if(uri==null || TextUtils.isEmpty(uri.toString())) {
-            Log.e(TAG,"createScaleBitmapFroUri fail for uri is invalid");
+            Log.e(TAG,"createScaleBitmapFromUri fail for uri is invalid");
             return null;
         }
 
         if(width<=0 || height<=0) {
-            Log.e(TAG,"createScaleBitmapFroUri fail for target width or height is less than 0");
+            Log.e(TAG,"createScaleBitmapFromUri fail for target width or height is less than 0");
             return null;
         }
 
@@ -332,6 +305,52 @@ public class BitmapUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        return null;
+    }
+
+    /***
+     * create scale bitmap for bytes, useless more memory
+     * @param bytes bytes of bitmap to decode
+     * @param width target bitmap width
+     * @param height target bitmap height
+     * @param options target bitmap decode option, ARGB8888, ARGB4444, RGB565...
+     * @return result scale bitmap or null
+     * */
+    public static Bitmap createScaleFromBytes(byte[] bytes, int width, int height, BitmapFactory.Options options) {
+        if(bytes==null || bytes.length<=0) {
+            Log.e(TAG,"createScaleFromBytes fail for bytes is invalid");
+            return null;
+        }
+
+        if(width<=0 || height<=0) {
+            Log.e(TAG,"createScaleFromBytes fail for target width or height is less than 0");
+            return null;
+        }
+
+        if(options == null) {
+            options = new BitmapFactory.Options();
+        }
+
+        options.inJustDecodeBounds = true;
+        try {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length,options);
+
+            int maxSize = Math.max(options.outWidth, options.outHeight);
+            int maxTargetSize = Math.max(width, height);
+            if(maxSize <= maxTargetSize) {
+                options.inSampleSize = 1;
+            } else {
+                options.inSampleSize = maxSize / maxTargetSize;
+            }
+
+            options.inJustDecodeBounds = false;
+            bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length,options);
+            bitmap = createScaleBitmap(bitmap,width,height);
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;

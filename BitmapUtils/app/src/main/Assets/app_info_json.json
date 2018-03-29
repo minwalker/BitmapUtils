@@ -1,0 +1,83 @@
+{
+    "Bilibili":{
+      "name": "哔哩哔哩动画",
+      "ver":"v5.23.0",
+      "pk_name":"",
+      "img_url": "http://9.pic.pc6.com/thumb/up/2018-1/201813110585996839731_160_160.jpg",
+      "desr":"Bilibili哔哩哔哩弹幕网目前有动画、音乐、游戏、科学技术、娱乐、专辑合集、新番连载以及专题8个板块，弹幕网视频很有个性，你可以在这里找到更多娱乐的方式。新版做的很不错，加上了每周新番时间表很方便。",
+      "app_url":""
+    },
+
+    "biyimult":{
+      "name": "比翼多开神器",
+      "ver":"2.4.5",
+      "pk_name":"com.boly.wxmultopen",
+      "img_url": "http://8.pic.pc6.com/thumb/up/2017-8/2017819101426798507469900_160_160.png",
+      "desr":"比翼多开神器是一款多开助手，比翼多开王者荣耀支持微信、qq、陌陌这些社交软件的多开，比翼多开神器还支持王者荣耀等热门手机网游开小号挂机练级哦！游戏狗多开软件你可以在一台手机上实现多个账号登陆，轻松畅玩。",
+      "app_url":""
+    },
+
+    "poco camera":{
+      "name": "美人相机",
+      "ver":"4.2.1",
+      "pk_name":"my.beautyCamera",
+      "img_url": "http://thumb10.jfcdns.com/thumb/2017-10/bce59e72af6cbec3_160_160.png",
+      "desr":"POCO美人相机：POCO家的相机应用比较多，虽然说是多，但每个针对性不同，这个就是针对美女自拍的一个相机应用吗，以至于后台着名的某某也跟风来了一个，很不错",
+      "app_url":"http://acj3.pc6.com/pc6_soure/2018-2/my.beautyCamera_209.apk"
+    },
+
+    "little fish":{
+      "name": "小鱼在家",
+      "ver":"3.0.13-1012",
+      "pk_name":"com.ainemo.vulture",
+      "img_url": "http://0.pic.pc6.com/thumb/up/2017-8/20178239402039764382_160_160.png",
+      "desr":"小鱼在家app是小鱼在家智能机器人手机控制端，通过app远程操控小鱼在家家庭陪伴机器人实现和家人面对面视频通话，就像家人聚在一起聊天一样真实而自然。",
+      "app_url":"http://acj3.pc6.com/pc6_soure/2018-2/com.ainemo.vulture_30013.apk"
+    },
+
+  "tantan":{
+    "name": "探探",
+    "ver":"v2.9.6.1",
+    "pk_name":"",
+    "img_url": "http://7.pic.pc6.com/thumb/up/2014-9/2014922195739_160_160.png",
+    "desr":"探探app是一款全新的交友聊天类软件。在探探app中，搭讪和喜欢有非常直接的定义，你可以了解周围的帅哥美女，然后选择搭讪，也可以用左右滑动这样简洁的方式表明你的态度。",
+    "app_url":""
+  },
+
+  "meitu":{
+    "name": "美图秀秀",
+    "ver":"7.2.5.2",
+    "pk_name":"com.mt.mtxx.mtxx",
+    "img_url": "http://3.pic.pc6.com/thumb/up/2014-10/2014101495015_160_160.png",
+    "desr":"美图秀秀是一款图片美化软件，美图家的应用还是很多的，只是功能看起来都差不多，但还是受到了很多手机党的喜爱，看来自拍年代是少不了这些东西,一些图片的基础效果处理也很出色。",
+    "app_url":"http://acj3.pc6.com/pc6_soure/2018-3/com.mt.mtxx.mtxx_7252.apk"
+  },
+
+  "ping li de":{
+    "name": "拼立得app",
+    "ver":"v4.7.2",
+    "pk_name":"",
+    "img_url": "http://2.pic.pc6.com/thumb/up/2017-1/20171231427384315314_160_160.png",
+    "desr":"拼立得安卓版是一款拼图软件，拼图在很多的美图软件中都有涉及到，只是拼立得安卓版单独的将拼图更加发扬光大了。拼图的风格也不是很俗套，很多不错的模板，值得一试。",
+    "app_url":""
+  },
+
+  "ant camera":{
+    "name": "小蚁摄像机",
+    "ver":"v2.10.15.0",
+    "pk_name":"",
+    "img_url": "http://thumb10.jfcdns.com/thumb/2017-10/bce59e0839647ae6_160_160.png",
+    "desr":"小蚁摄像机app是小米专为小蚁摄像机推出的一款手机APP软件，通过小蚁摄像机app用户可以很直观的查看家里的情况，还能通过手机进行双向通话。",
+    "app_url":""
+  },
+
+  "qiezi xiaodi":{
+    "name": "茄子小弟",
+    "ver":"v1.1.0",
+    "pk_name":"",
+    "img_url": "http://7.pic.pc6.com/thumb/up/2016-3/20163179389_160_160.png",
+    "desr":"茄子小弟app是专为SHAREitSD卡打造的应用，能随时游览和下载SD卡里的内容，能随时链接相机发送照片到各大社交平台，更能超级省电，是您使用SHAREitSD卡的好帮手。",
+    "app_url":""
+  }
+
+}

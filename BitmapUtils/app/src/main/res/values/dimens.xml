@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="img_size">100dp</dimen>
+    <dimen name="item_padding_x">16dp</dimen>
+    <dimen name="item_padding_y">10dp</dimen>
+    <dimen name="item_icon_size">50dp</dimen>
+
+    <dimen name="item_title_margin_start">10dp</dimen>
+    <dimen name="item_summary_margin_top">2dp</dimen>
+    <dimen name="item_other_margin_start">2dp</dimen>
+
+    <dimen name="progress_width">60dp</dimen>
+    <dimen name="progress_height">24dp</dimen>
+    <dimen name="progress_padding_y">2dp</dimen>
+    <dimen name="progress_padding_x">2dp</dimen>
+
+    <item name="corner_radius" format="float" type="dimen">24.0</item>
+    <item name="text_spaces" format="float" type="dimen">0.08</item>
+
+    <dimen name="progress_divdier">1px</dimen>
 </resources>

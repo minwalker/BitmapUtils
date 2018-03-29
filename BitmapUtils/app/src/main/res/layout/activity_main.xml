@@ -7,18 +7,23 @@
         android:id="@+id/enter_bitmap_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="enter bitmap activity"/>
+        android:text="@string/main_enter_bitmap_title"/>
 
     <Button
         android:id="@+id/enter_corner_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="enter corner activity"/>
+        android:text="@string/main_enter_corner_title"/>
 
     <Button
         android:id="@+id/enter_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="enter save activity"/>
+        android:text="@string/main_enter_save_title"/>
 
+    <Button
+        android:id="@+id/enter_http_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_enter_http_title"/>
 </LinearLayout>

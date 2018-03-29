@@ -1,3 +1,23 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">BitmapUtils</string>
+
+    <string name="main_enter_bitmap_title">"enter bitmap activity"</string>
+    <string name="main_enter_corner_title">"enter corner activity"</string>
+    <string name="main_enter_save_title">"enter save activity"</string>
+    <string name="main_enter_http_title">"enter http activity"</string>
+
+    <string name="notif_download_title">"apk download..."</string>
+    <string name="notif_download_complete_title">"apk download complete"</string>
+
+    <string name="download_service_url_key">"app_url"</string>
+    <string name="download_default_path" translatable="false">"/storage/emulated/0/my_app_cache/"</string>
+
+    <string name="app_has_install_title">"installed"</string>
+    <string name="app_not_useful_url_title">"can't download"</string>
+    <string name="app_can_download_title">"download"</string>
+
+    <string name="progress_btn_percent">"<xliff:g id="percent">%1$d</xliff:g>%%"</string>
+    <string name="progress_btn_download">Download</string>
+    <string name="progress_btn_complete">Complete</string>
+    <string name="progress_btn_cancel">Cancel</string>
 </resources>
