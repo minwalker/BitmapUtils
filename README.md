@@ -19,6 +19,7 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	save local and install.
 	
 ![](/BitmapUtils/screen_capture/http_app_activity.png)![](/BitmapUtils/screen_capture/http_app_info_activity.png)
+
 ![](/BitmapUtils/screen_capture/operation_http_three.png)![](/BitmapUtils/screen_capture/operation_http_four.png)
 	
 ## utils tool description
@@ -47,6 +48,131 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	as google's webp type is the best, can using in web app, and same cache using in local.
 	
 ## useful operations for bitmap
-	finaly, there is same useful operations for bitmap, most is using the canvas and bitmap to 
+	there is same useful operations for bitmap, most is using the canvas and bitmap to 
 	draw again get the result you want.
 ![](/BitmapUtils/screen_capture/bitmap_corner_operation_page.png)
+
+## app store sample
+	final, we use OkHttp and our utils to make a app store sample. we make:
+	1、perpare remote data, data format as below(because i don't have remote compute, so i just make 
+	a local json file inassets instealled, you can change to you remote compute with the same json 
+	format is ok)
+	
+	"wangzhe":{
+    		"name":"王者荣耀",
+    		"ver":"1.33.1.23",
+    		"pk_name":"com.tencent.tmgp.sgame",
+    		"img_url":"http://1.pic.pc6.com/thumb/up/2015-10/2015102491743_160_160.png",
+    		"desr":"王者荣耀是一款大型对战MOBA手游，由腾讯最新打造，5V5经典地图，适合喜欢团战的朋友，重度微操，
+		原汁原味的团体对战体验，英雄策略搭配，实力操作公平对战，回归MOBA初心!",
+    		"app_url":"https://gg.0006266.com/31300401407/9280001/72300262423",
+    		"app_size":"792.1M",
+    		"app_rate":"4.8",
+    		"app_type":"3",
+    		"img_list":[
+      			"http://thumb11.jfcdns.com/thumb/2017-10/bce59f02e33b541a_600_566.jpeg",
+      			"http://thumb12.jfcdns.com/thumb/2017-10/bce59f02e33d764b_600_566.jpeg",
+      			"http://thumb11.jfcdns.com/thumb/2017-10/bce59f02e3400b77_600_566.jpeg",
+      			"http://thumb12.jfcdns.com/thumb/2017-10/bce59f02e341e4bb_600_566.jpeg"
+    			]
+  		}
+		
+	we using JsonReader and our method readDataWithTag(JsonReader jsReader, String name, AppInfoData data) 
+	to get then into AppInfoData for use to save the info of every json object.
+	
+	
+	2、init OkHttp and cache logic for get remote image and apk.both HttpActivity, AppListActivity and
+	AppInfoActivity need this logic, so we make a BaseHttpActivity as the base class of then.
+	
+	we create a LruCache for memory cache, and make loadRemoteOrLocalImage method to decide to get 
+	local image or remote image, when there is a local file we get it into Lrucache, otherwise we 
+	get remote by Okhttp and save it local for next time used, for we don't want use to know our 
+	file name is our remote url, we using MD5 decode name to avoid this.
+	
+	String path_md5 = FileUtils.ParseMd5(url);
+            File file = new File("/storage/emulated/0/my_app_cache/" + path_md5 + ".webp");
+            Log.d(TAG,"loadRemoteImage file: "+(file!=null?file.exists():null));
+            if (file!=null && file.exists()) {
+                getLocalImage(url,path_md5,parent,width,height);
+                return;
+            } else {
+                getRemoteImage(url,parent,width,height,corner);
+            }
+	    
+	3、we create a IntentService(HttpService) for get the download apk task for no block main thread,
+	we reforward a respone of OkHttp to get the download progress by using a Interceptor and google's
+	ProgressResponseBody.
+	
+	final ProgressResponseBody.ProgressListener mProgressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    int progress = (int)(100*(bytesRead*1.0f/contentLength));
+                    if(mNotificationManager!=null) {
+                        updateProgress(progress);
+                        if(curProgress == 100) {
+                            CancleNotification();
+                        }
+                    }
+                }
+            };
+            Interceptor interceptor = new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                            .body(new ProgressResponseBody(originalResponse.body(),mProgressListener))
+                            .build();
+                }
+            };
+
+            mClient = new OkHttpClient.Builder()
+                    .connectTimeout(10000, TimeUnit.MILLISECONDS)
+                    .addNetworkInterceptor(interceptor)
+                    .build();
+	
+	we send the broadcast to refresh our ui through updateProgress(int progress) method, to reduce
+	recycle update, we need to add curProgress, make sure only progress change can refresh, and
+	only can update 100 times as most.
+	
+	private void updateProgress(int progress) {
+          if(mNotificationManager!=null && mBuilder!=null) {
+            if (curProgress < progress) {
+                if(progress == 100) {
+                    mBuilder.setContentTitle(getApplication().getResources().getString(R.string.notif_download_complete_title));
+                }
+                mBuilder.setProgress(100, progress, false);
+                mNotificationManager.notify(100, mBuilder.build());
+                Intent mProgressIntent = new Intent();
+                mProgressIntent.setAction("com.http.progress.refresh");
+                mProgressIntent.putExtra("app_url",current_url);
+                mProgressIntent.putExtra("progress",progress);
+                sendBroadcast(mProgressIntent);
+                curProgress = progress;
+            }
+        }
+    }
+    
+    4、we use startInstall(File file) of HttpService to install the download apk.
+    private void startInstall(File file){
+        try {
+            Intent apk_intent = new Intent(Intent.ACTION_VIEW);
+            apk_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            apk_intent.addCategory(Intent.CATEGORY_DEFAULT);
+            if (Build.VERSION.SDK_INT >= 24) {
+                Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "com.ice.bitmaputils.fileprovider", file);
+                apk_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                apk_intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            } else {
+                apk_intent.setDataAndType(Uri.fromFile(file),
+                        "application/vnd.android.package-archive");
+            }
+            getApplication().startActivity(apk_intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    finally, our app store sample work like below:
+![](/BitmapUtils/screen_capture/operation_http_one.gif)
+
+![](/BitmapUtils/screen_capture/operation_http_two.gif)
