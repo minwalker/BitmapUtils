@@ -43,7 +43,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by walkersky on 2018/4/11.
+ * Created by minwalker on 2018/4/11.
  */
 
 public class BaseHttpActivity extends Activity {

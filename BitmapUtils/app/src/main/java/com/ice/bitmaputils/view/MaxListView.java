@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ListView;
 
 /**
- * Created by walkersky on 2018/4/9.
+ * Created by minwalker on 2018/4/9.
  */
 
 public class MaxListView extends ListView {

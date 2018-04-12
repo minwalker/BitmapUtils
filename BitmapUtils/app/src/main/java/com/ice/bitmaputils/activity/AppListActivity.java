@@ -18,7 +18,7 @@ import com.ice.bitmaputils.view.ProgressButton;
 import java.util.ArrayList;
 
 /**
- * Created by walkersky on 2018/4/11.
+ * Created by minwalker on 2018/4/11.
  */
 
 public class AppListActivity extends BaseHttpActivity implements AdapterView.OnItemClickListener{
