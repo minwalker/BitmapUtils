@@ -2,7 +2,9 @@
 a simple bitmap utils for android bitmap in a simple way useless memory and other operations
 
 ## version v1.0
-	init utils code and same sample activity
+	1、init utils code and same sample activity.
+	
+	2、init a app store sample by using okhttp and IntentService.
 
 ## description
 	1、this is a utils tool for decode bitmap with same simple method, get the better memory than origin.
@@ -12,6 +14,12 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	
 	3、there are some useful operations for bitmap, like oval bitmap, reflected bitmap, corner bitmap and
 	Gauusian Blur.
+	
+	4、we use a app store sample to get remote image and cache local, memory, and how to get remote apk
+	save local and install.
+	
+![](/BitmapUtils/screen_capture/http_app_activity.png)![](/BitmapUtils/screen_capture/http_app_info_activity.png)
+![](/BitmapUtils/screen_capture/operation_http_three.png)![](/BitmapUtils/screen_capture/operation_http_four.png)
 	
 ## utils tool description
 ![](/BitmapUtils/screen_capture/bitmap_log.png)
