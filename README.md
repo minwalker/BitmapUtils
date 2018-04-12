@@ -138,7 +138,8 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
           if(mNotificationManager!=null && mBuilder!=null) {
             if (curProgress < progress) {
                 if(progress == 100) {
-                    mBuilder.setContentTitle(getApplication().getResources().getString(R.string.notif_download_complete_title));
+                    mBuilder.setContentTitle(getApplication().getResources()
+		    .getString(R.string.notif_download_complete_title));
                 }
                 mBuilder.setProgress(100, progress, false);
                 mNotificationManager.notify(100, mBuilder.build());
@@ -153,13 +154,15 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
     }
     
     4、we use startInstall(File file) of HttpService to install the download apk.
+    
     private void startInstall(File file){
         try {
             Intent apk_intent = new Intent(Intent.ACTION_VIEW);
             apk_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             apk_intent.addCategory(Intent.CATEGORY_DEFAULT);
             if (Build.VERSION.SDK_INT >= 24) {
-                Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), "com.ice.bitmaputils.fileprovider", file);
+                Uri apkUri = FileProvider
+		.getUriForFile(getApplicationContext(), "com.ice.bitmaputils.fileprovider", file);
                 apk_intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 apk_intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
             } else {
@@ -172,7 +175,7 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
         }
     }
     
-    finally, our app store sample work like below:
+     finally, our app store sample work like below:
 ![](/BitmapUtils/screen_capture/operation_http_one.gif)
 
 ![](/BitmapUtils/screen_capture/operation_http_two.gif)
