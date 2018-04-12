@@ -198,6 +198,7 @@ public class ProgressButton extends View {
             mTextPaint.setColor(Color.WHITE);
             canvas.drawText(mInstalledText, mWidth * 0.5f, centerY * 0.5f, mTextPaint);
         } else {
+            mTextPaint.setColor(mTextColor);
             float right = (mWidth-mPaddingX)*(mProgress*1.0f/mMaxProgress);
             canvas.drawText(getResources().getString(R.string.progress_btn_percent,mProgress), mWidth * 0.5f, centerY * 0.5f, mTextPaint);
             if(right > mPaddingX) {

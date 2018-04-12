@@ -2,7 +2,7 @@
   "wangzhe":{
     "name":"王者荣耀",
     "ver":"1.33.1.23",
-    "pk_name":"",
+    "pk_name":"com.tencent.tmgp.sgame",
     "img_url":"http://1.pic.pc6.com/thumb/up/2015-10/2015102491743_160_160.png",
     "desr":"王者荣耀是一款大型对战MOBA手游，由腾讯最新打造，5V5经典地图，适合喜欢团战的朋友，重度微操，原汁原味的团体对战体验，英雄策略搭配，实力操作公平对战，回归MOBA初心!",
     "app_url":"https://gg.0006266.com/31300401407/9280001/72300262423",
@@ -20,7 +20,7 @@
   "yiyanshi":{
     "name":"阴阳师",
     "ver":"1.0.37",
-    "pk_name":"",
+    "pk_name":"com.netease.onmyoji.yixin",
     "img_url":"http://1.pic.pc6.com/thumb/up/2016-9/2016920841363304213_160_160.png",
     "desr":"阴阳师手游是一款3D唯美风格的日系动作RPG手游，以日本有名的阴阳师ip为世界观。在经典的半即时回合制RPG基础上，还包含了卡牌收集、养成和基于LBS(基于地理位置)的社交PK模式等玩法。",
     "app_url":"https://gg.0006266.com/95000780439/7630001/25502213462",
@@ -37,7 +37,7 @@
   "wojiaomt":{
     "name":"我叫MT",
     "ver":"7.4.0.0",
-    "pk_name":"",
+    "pk_name":"com.locojoy.immt_a_chs.uc",
     "img_url":"http://7.pic.pc6.com/thumb/up/2016-12/201612221340259860869_160_160.png",
     "desr":"我叫MT Online：根据同名漫画改编的一款移动网游，之前已经在ios平台登入了，游戏虽然有点小小的推迟，但丝毫不影响大家试玩的兴趣，只可惜的事个人没看过这个MT的漫画，但还是了解了游戏的精髓所在。",
     "app_url":"https://gg.0006266.com/19800071308/5540001/64700035261",

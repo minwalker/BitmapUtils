@@ -10,6 +10,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -96,6 +97,73 @@ public class FileUtils {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * method to save the file with origin source bytes stream
+     * @param path file path to save file
+     * @param sources bytes source stream of the save file
+     * @return result whether the file has saved
+     * **/
+    public static boolean saveFile(String path, InputStream sources) {
+        if(!checkDirExist(path)) {
+            Log.e(TAG, "save apk found dir is no exit");
+            return false;
+        }
+
+        File file = new File(path);
+        if(file!=null && (!file.isFile() || !file.exists())) {
+            try {
+                boolean result = file.createNewFile();
+                Log.d(TAG,"save apk file create new result: "+result);
+            } catch (IOException e) {
+                Log.e(TAG,"save apk file create fail for exception");
+                e.printStackTrace();
+                return false;
+            }
+        } else if(file!=null && file.exists()) {
+            Log.d(TAG,"save apk file already exit ");
+            return true;
+        }
+
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+        try {
+            fos = new FileOutputStream(file);
+            byte[] buf = new byte[8*1024];
+            int len = 0;
+            while((len = sources.read(buf))!=-1) {
+                fos.write(buf,0,len);
+            }
+            fos.flush();
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG,"save apk fail for exception");
+            e.printStackTrace();
+        } finally {
+            try {
+                if(bos!=null) {
+                    bos.close();
+                }
+
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean deleteFile(String path) {
+        File file = new File(path);
+        if(file.exists()&&file.isFile()) {
+            return file.delete();
         }
 
         return false;

@@ -32,6 +32,7 @@ import com.ice.bitmaputils.view.ProgressButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -193,8 +194,14 @@ public class BaseHttpActivity extends Activity {
                     try {
                         Log.d(TAG,"on http response: "+response.isSuccessful()+" : "+response.code());
                         if (response.isSuccessful()) {
-                            byte[] img_bytes = response.body().bytes();
-                            Bitmap bitmap = BitmapUtils.createScaleFromBytes(img_bytes, width, height,null, true);
+                            //byte[] img_bytes = response.body().bytes();
+                            InputStream imgStream = response.body().byteStream();
+                            String path = "/storage/emulated/0/my_app_cache/"+FileUtils.ParseMd5(url);
+                            FileUtils.saveFile(path,imgStream);
+                            Bitmap bitmap = BitmapUtils.createScaleBitmapFromFile(path, width, height,null, true);
+                            boolean result = FileUtils.deleteFile(path);
+                            Log.d(TAG,"delete origin file: "+result);
+                            //Bitmap bitmap = BitmapUtils.createScaleFromBytes(img_bytes, width, height,null, true);
                             response.body().close();
                             final Bitmap imageBitmap = corner ? BitmapUtils.CornerBitmapUtils.getCornerBitmap(
                                     bitmap,getResources().getDimensionPixelOffset(R.dimen.app_rect_corner),
@@ -202,7 +209,7 @@ public class BaseHttpActivity extends Activity {
                                     : bitmap;
 
                             BitmapUtils.decodeBitmapToFile(imageBitmap,
-                                    "/storage/emulated/0/my_app_cache/"+FileUtils.ParseMd5(url),BitmapUtils.TYPE_WEBP);
+                                    path,BitmapUtils.TYPE_WEBP);
                             if(mCache.get(url)==null) {
                                 mCache.put(url, imageBitmap);
                             }

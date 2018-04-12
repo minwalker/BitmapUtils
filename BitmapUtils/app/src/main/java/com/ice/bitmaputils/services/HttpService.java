@@ -20,6 +20,7 @@ import com.ice.bitmaputils.utils.ProgressResponseBody;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -145,8 +146,9 @@ public class HttpService extends IntentService {
                 Response response = mCall.execute();
                 Log.d(TAG,"on httpService response: "+response.isSuccessful()+" : "+response.code());
                 if(response.isSuccessful()) {
-                    byte[] bytes = response.body().bytes();
-                    boolean result = FileUtils.saveApk(apkPath,bytes);
+                    InputStream byteStream = response.body().byteStream();
+//                    byte[] bytes = response.body().bytes();
+                    boolean result = FileUtils.saveFile(apkPath,byteStream);
                     response.body().close();
                     if(result) {
                         file = new File(apkPath);
