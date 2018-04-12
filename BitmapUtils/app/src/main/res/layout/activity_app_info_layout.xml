@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_info_background_color">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_info_top_height"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/sort_linear_layout_padding_x"
+            android:layout_marginTop="@dimen/sort_linear_layout_padding_x"
+            android:src="@drawable/action_back"
+            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/default_icon"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/sort_linear_layout_padding_x"
+            android:paddingEnd="@dimen/sort_linear_layout_padding_x"
+            android:layout_marginTop="@dimen/app_info_text_padding_y"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_below="@id/app_icon"
+            android:layout_centerHorizontal="true"
+            android:text="Title"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/app_title">
+
+            <TextView
+                android:id="@+id/app_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:paddingStart="@dimen/app_size_padding_x"
+                android:paddingEnd="@dimen/app_size_padding_x"/>
+
+            <RatingBar
+                android:id="@+id/app_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:numStars="5"
+                android:rating="0"
+                android:stepSize="0.5"
+                android:isIndicator="true"
+                android:progressTint="@color/progress_text_color"
+                android:secondaryProgressTint="@color/progress_fore_color"
+                />
+
+            <TextView
+                android:id="@+id/rate_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:paddingStart="@dimen/app_size_padding_x"
+                android:paddingEnd="@dimen/app_size_padding_x"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divdier_height"
+            android:background="@color/app_info_divdier_color"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_info_center_height"
+        android:layout_marginTop="@dimen/app_info_top_height"
+        android:layout_gravity="top">
+
+        <TextView
+            android:id="@+id/app_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_info_text_max_width"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="@dimen/sort_linear_layout_padding_x"
+            android:paddingEnd="@dimen/sort_linear_layout_padding_x"
+            android:paddingTop="@dimen/app_info_text_padding_y"
+            android:paddingBottom="@dimen/app_info_text_padding_y"
+            android:textSize="16dp"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="test"
+            android:gravity="center"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/app_info_pager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_info_card_height"
+            android:layout_below="@id/app_info">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/divdier_height"-->
+            <!--android:background="@color/app_info_divdier_color"-->
+            <!--android:layout_alignParentBottom="true"/>-->
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_info_bottom_height"
+        android:layout_gravity="bottom"
+        android:background="@color/app_info_bottom_background_color">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divdier_height"
+            android:background="@color/progress_fore_color"
+            android:layout_alignParentTop="true"/>
+
+        <com.ice.bitmaputils.view.ProgressButton
+            android:id="@+id/progress_btn"
+            android:layout_width="@dimen/app_info_progress_width"
+            android:layout_height="@dimen/app_info_progress_height"
+            android:layout_centerInParent="true"
+            app:maxProgress="100"
+            app:foreGroundColor="@color/progress_fore_color"
+            app:backGroundColor="@color/progress_back_color"
+            app:perTextColor="@color/progress_text_color"
+            app:padding_y="@dimen/progress_padding_y"
+            app:padding_x="@dimen/progress_padding_x"
+            app:buttonCornerRadius="@dimen/app_info_corner_radius"
+            app:download_text="@string/progress_btn_download"
+            app:complete_text="@string/progress_btn_complete"
+            app:cancle_text="@string/progress_btn_cancel"
+            app:installed_text="@string/progress_btn_installed"
+            app:text_spacing ="@dimen/text_spaces"
+            app:text_size="@dimen/app_info_text_size"
+            app:divider_width="@dimen/progress_divdier"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -18,11 +18,14 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
+import com.bumptech.glide.Glide;
 import com.ice.bitmaputils.R;
 import com.ice.bitmaputils.data.AppInfoData;
 import com.ice.bitmaputils.services.HttpService;
@@ -35,6 +38,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,24 +54,16 @@ import okhttp3.Response;
  * Created by minwalker on 2018/3/10.
  */
 
-public class HttpActivity extends Activity {
+public class HttpActivity extends BaseHttpActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
 
     private static final String TAG = "HttpActivity";
-    private OkHttpClient mClient;
     private ListView mListView;
-    private Call mCall;
-
-    private LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(1*1024*1024) {
-        @Override
-        protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
-            super.entryRemoved(evicted, key, oldValue, newValue);
-        }
-
-        @Override
-        protected int sizeOf(String key, Bitmap value) {
-            return value.getByteCount();
-        }
-    };
+    private View mCardOne,mCardTwo,mCardThree;
+    private View mTopEnter,mVedioEnter,mGameEnter,mCameraEnter;
+    private NetAdapter mAdapter;
+    private ArrayList<AppInfoData> mListDatas;
+    private ArrayList<AppInfoData> mTopDatas;
+    private static final boolean isGlide = false;
 
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -90,10 +86,28 @@ public class HttpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_http_layout);
         mListView = findViewById(R.id.list_view);
+        mCardOne = findViewById(R.id.card_one);
+        mCardTwo = findViewById(R.id.card_two);
+        mCardThree = findViewById(R.id.card_three);
+        mTopEnter = findViewById(R.id.type_top);
+        mVedioEnter = findViewById(R.id.type_video);
+        mGameEnter = findViewById(R.id.type_game);
+        mCameraEnter = findViewById(R.id.type_camera);
         String jsonStr = getJsonFromAssets(this,"app_info_json.json");
-        ArrayList<AppInfoData> mDatas = ParseJsonList(jsonStr);
-        NetAdapter mAdapter = new NetAdapter(getApplicationContext(), mDatas);
+        String topStr = getJsonFromAssets(this, "top_app_info_json.json");
+        mListDatas = ParseJsonList(jsonStr);
+        mTopDatas = ParseJsonList(topStr);
+        initCardTag(mTopDatas);
+        mAdapter = new NetAdapter(getApplicationContext(), mListDatas, mListView);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
+        mCardOne.setOnClickListener(this);
+        mCardTwo.setOnClickListener(this);
+        mCardThree.setOnClickListener(this);
+        mTopEnter.setOnClickListener(this);
+        mVedioEnter.setOnClickListener(this);
+        mGameEnter.setOnClickListener(this);
+        mCameraEnter.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +117,10 @@ public class HttpActivity extends Activity {
             IntentFilter mfilter = new IntentFilter();
             mfilter.addAction("com.http.progress.refresh");
             registerReceiver(mReceiver,mfilter);
+        }
+
+        if(mAdapter!=null && mAdapter.getCount() > 0) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -117,13 +135,47 @@ public class HttpActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mCall!=null && !mCall.isCanceled()) {
-            mCall.cancel();
-        }
+    }
 
-        if(mCache!=null) {
-            mCache.evictAll();
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.card_one:
+            case R.id.card_two:
+            case R.id.card_three:
+                Intent intent = new Intent(HttpActivity.this,AppInfoActivity.class);
+                intent.putExtra("app_info",(AppInfoData)view.getTag());
+                startActivity(intent);
+                break;
+            case R.id.type_top:
+            case R.id.type_video:
+            case R.id.type_game:
+            case R.id.type_camera:
+                Intent typeIntent = new Intent(HttpActivity.this,AppListActivity.class);
+                ArrayList<AppInfoData> datas = new ArrayList<AppInfoData>();
+                datas.addAll(mTopDatas);
+                datas.addAll(mListDatas);
+                typeIntent.putExtra("app_type",view.getId());
+                typeIntent.putExtra("apps_list",datas);
+                startActivity(typeIntent);
+                break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        AppInfoData data = mAdapter.getItem(position);
+        if(data!=null) {
+            Intent intent = new Intent(HttpActivity.this, AppInfoActivity.class);
+            intent.putExtra("app_info",data);
+            startActivity(intent);
+        }
+    }
+
+    private void initCardTag(List datas) {
+        mCardOne.setTag(datas.get(0));
+        mCardTwo.setTag(datas.get(1));
+        mCardThree.setTag(datas.get(2));
     }
 
     /**
@@ -180,6 +232,10 @@ public class HttpActivity extends Activity {
                 readDataWithTag(jsReader,"img_url", data);
                 readDataWithTag(jsReader,"desr", data);
                 readDataWithTag(jsReader,"app_url", data);
+                readDataWithTag(jsReader,"app_size", data);
+                readDataWithTag(jsReader,"app_rate", data);
+                readDataWithTag(jsReader,"app_type", data);
+                readDataWithTag(jsReader,"img_list", data);
 
                 if(!mList.contains(data)) {
                     mList.add(data);
@@ -203,245 +259,50 @@ public class HttpActivity extends Activity {
                                  String name, AppInfoData data) throws IOException {
         String tag = jsReader.nextName();
         if(name.equals(tag)) {
-            tag = jsReader.nextString();
-            switch (name) {
-                case "name":
-                    data.setName(tag);
-                    break;
-                case "ver":
-                    data.setVersion(tag);
-                    break;
-                case "img_url":
-                    data.setUrl(tag);
-                    break;
-                case "desr":
-                    data.setDescri(tag);
-                    break;
-                case "app_url":
-                    data.setAppUrl(tag);
-                    break;
-                case "pk_name":
-                    data.setPackageName(tag);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * load image by url, if memory hasn't cache load local,
-     * local cache has it get local otherwise load remote
-     * @param url remote image url
-     * **/
-    private void loadRemoteOrLocalImage(final String url){
-        try {
-            if(mCache!=null && mCache.get(url)!=null) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ImageView imageView = (ImageView) mListView.findViewWithTag(url);
-                        if(imageView!=null) {
-                            imageView.setImageBitmap(mCache.get(url));
-                        }
+            if(name.equals("img_list")) {
+                jsReader.beginArray();
+                ArrayList<String> imageList = new ArrayList<String>();
+                while (jsReader.hasNext()) {
+                    tag = jsReader.nextString();
+                    if(!imageList.contains(tag)) {
+                        imageList.add(tag);
                     }
-                });
-                return;
-            }
-            String path_md5 = FileUtils.ParseMd5(url);
-            File file = new File("/storage/emulated/0/my_app_cache/" + path_md5 + ".webp");
-            Log.d(TAG,"loadRemoteImage file: "+(file!=null?file.exists():null));
-            if (file!=null && file.exists()) {
-                getLocalImage(url,path_md5);
-                return;
+                }
+                jsReader.endArray();
+                data.setImageList(imageList);
             } else {
-                getRemoteImage(url);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    /**
-     * method for get local cache image if file already exit
-     * @param url origin remote url
-     * @param path md5 format remonte url
-     * **/
-    private void getLocalImage(final String url,String path){
-        final Bitmap file_bitmap = BitmapUtils.createScaleBitmapFromFile("/storage/emulated/0/my_app_cache/" + path + ".webp",
-                100,100,null);
-        if(mCache.get(url)==null) {
-            mCache.put(url, file_bitmap);
-        }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG,"runOnUiThread file bitmap: "+(file_bitmap==null));
-                ImageView imageView = (ImageView) mListView.findViewWithTag(url);
-                if(imageView!=null) {
-                    imageView.setImageBitmap(file_bitmap);
+                tag = jsReader.nextString();
+                switch (name) {
+                    case "name":
+                        data.setName(tag);
+                        break;
+                    case "ver":
+                        data.setVersion(tag);
+                        break;
+                    case "img_url":
+                        data.setUrl(tag);
+                        break;
+                    case "desr":
+                        data.setDescri(tag);
+                        break;
+                    case "app_url":
+                        data.setAppUrl(tag);
+                        break;
+                    case "pk_name":
+                        data.setPackageName(tag);
+                        break;
+                    case "app_size":
+                        data.setAppSize(tag);
+                        break;
+                    case "app_rate":
+                        data.setAppRate(Float.valueOf(tag));
+                        break;
+                    case "app_type":
+                        data.setAppType(Integer.valueOf(tag));
+                        break;
                 }
             }
-        });
-    }
-
-    /**
-     * method for get remote image by http if local no exit
-     * @param url remote image url
-     * **/
-    private void getRemoteImage(final String url){
-        if(mClient == null) {
-            mClient = new OkHttpClient.Builder()
-                    .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                    .readTimeout(10000, TimeUnit.MILLISECONDS)
-                    .build();
-        }
-        Request request = new Request.Builder()
-                .addHeader("Accept-Encoding", "gzip, deflate")
-                .url(url)
-                .header("RANGE", "bytes="+0L+"-")
-                .build();
-
-
-        try {
-            mCall = mClient.newCall(request);
-            mCall.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.d(TAG,"on http fail");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    try {
-                        Log.d(TAG,"on http response: "+response.isSuccessful()+" : "+response.code());
-                        if (response.isSuccessful()) {
-                            byte[] img_bytes = response.body().bytes();
-                            final Bitmap bitmap = BitmapUtils.createScaleFromBytes(img_bytes, 100, 100,null);
-                            response.body().close();
-                            BitmapUtils.decodeBitmapToFile(bitmap,
-                                    "/storage/emulated/0/my_app_cache/"+FileUtils.ParseMd5(url),BitmapUtils.TYPE_WEBP);
-                            if(mCache.get(url)==null) {
-                                mCache.put(url, bitmap);
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Log.d(TAG,"runOnUiThread: "+(bitmap==null));
-                                    ImageView imageView = (ImageView) mListView.findViewWithTag(url);
-                                    if(imageView!=null) {
-                                        imageView.setImageBitmap(bitmap);
-                                    }
-                                }
-                            });
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    private class NetAdapter extends BaseAdapter {
-
-        private Context mContext;
-        private List<AppInfoData> mList;
-        private View.OnClickListener mOnClickListener;
-        private PackageManager mPackageManager;
-
-        public NetAdapter (Context context, List<AppInfoData> list) {
-            mContext = context;
-            mList = list;
-            mPackageManager = (PackageManager)mContext.getApplicationContext()
-                    .getPackageManager();
-            mOnClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String url = (String)v.getTag();
-                    Log.d(TAG, "start service url: "+url);
-                    if(!TextUtils.isEmpty(url)) {
-                        Intent intent = new Intent(getApplicationContext(), HttpService.class);
-                        intent.putExtra("app_url", url);
-                        startService(intent);
-                    }
-                }
-            };
-        }
-
-        @Override
-        public int getCount() {
-            if(mList!=null) {
-                return mList.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            if(mList!=null && position < mList.size()) {
-                return mList.get(position);
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder mHolder = null;
-            if(convertView==null) {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item,null);
-                mHolder = new ViewHolder();
-                mHolder.mTitle = convertView.findViewById(R.id.title);
-                mHolder.mIcon = convertView.findViewById(R.id.icon);
-                mHolder.mSummary = convertView.findViewById(R.id.summary);
-                mHolder.mVersion = convertView.findViewById(R.id.version);
-                mHolder.mProgress = convertView.findViewById(R.id.progress_btn);
-                convertView.setTag(mHolder);
-            } else {
-                mHolder = (ViewHolder)convertView.getTag();
-            }
-
-            AppInfoData data = (AppInfoData) getItem(position);
-            if(data != null) {
-                mHolder.mTitle.setText(data.getName());
-                mHolder.mSummary.setText(data.getDescri());
-                mHolder.mVersion.setText(data.getVersion());
-
-                boolean isInstalled = Utils.isAppInstalled(mPackageManager,data.getPackageName(),
-                        data.getVersion());
-                mHolder.mProgress.setCurrentProgress(isInstalled?100:-1, true);
-                mHolder.mProgress.setTag(data.getAppUrl());
-                if(isInstalled) {
-                    mHolder.mProgress.setOnClickListener(null);
-                } else {
-                    mHolder.mProgress.setOnClickListener(mOnClickListener);
-                }
-
-                String url = data.getUrl();
-                mHolder.mIcon.setTag(url);
-                if (mCache.get(url) == null) {
-                    loadRemoteOrLocalImage(url);
-                } else {
-                    mHolder.mIcon.setImageBitmap(mCache.get(url));
-                }
-            }
-
-            return convertView;
-        }
-
-        class ViewHolder{
-            TextView mTitle;
-            TextView mSummary;
-            TextView mVersion;
-            ImageView mIcon;
-            ProgressButton mProgress;
-        }
-    }
 }

@@ -1,13 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/list_view"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.ice.bitmaputils.view.BackgroundView
+            android:id="@+id/top_background"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/top_background_height"
+            android:layout_gravity="top|start"
+            app:beginColor="@color/backgroud_top_begin_color"
+            app:endColor="@color/backgroud_top_end_color"
+            app:isRect="false"/>
+
+        <ViewFlipper
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:autoStart="true"
+            android:inAnimation="@anim/flipper_anim_in"
+            android:outAnimation="@anim/flipper_anim_out"
+            android:layout_marginTop="@dimen/view_flipper_magrin_top">
+
+            <com.ice.bitmaputils.view.BackgroundView
+                android:id="@+id/card_one"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_rect_height"
+                android:layout_gravity="center"
+                app:beginColor="@color/app_card_begin_color_one"
+                app:endColor="@color/app_card_end_color_one"
+                app:isRect="true"
+                app:corner="@dimen/app_rect_corner"
+                app:rectSize="@dimen/app_rect_width"
+                app:foreBitmap="@drawable/card_one"
+                app:autoRecycle="true"/>
+
+            <com.ice.bitmaputils.view.BackgroundView
+                android:id="@+id/card_two"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_rect_height"
+                android:layout_gravity="center"
+                app:beginColor="@color/app_card_begin_color_two"
+                app:endColor="@color/app_card_end_color_two"
+                app:isRect="true"
+                app:corner="@dimen/app_rect_corner"
+                app:rectSize="@dimen/app_rect_width"
+                app:foreBitmap="@drawable/card_two"
+                app:autoRecycle="true"/>
+
+            <com.ice.bitmaputils.view.BackgroundView
+                android:id="@+id/card_three"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_rect_height"
+                android:layout_gravity="center"
+                app:beginColor="@color/app_card_begin_color_three"
+                app:endColor="@color/app_card_end_color_three"
+                app:isRect="true"
+                app:corner="@dimen/app_rect_corner"
+                app:rectSize="@dimen/app_rect_width"
+                app:foreBitmap="@drawable/card_three"
+                app:autoRecycle="true"/>
+
+        </ViewFlipper>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sort_linear_layout_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/sort_linear_layout_padding_y"
+        android:paddingBottom="@dimen/sort_linear_layout_padding_y"
+        android:paddingStart="@dimen/sort_linear_layout_padding_x"
+        android:paddingEnd="@dimen/sort_linear_layout_padding_x">
+
+        <TextView
+            android:id="@+id/type_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_base_title"
+            android:textSize="12sp"
+            android:drawablePadding="@dimen/sort_linear_layout_text_padding"
+            android:drawableTop="@drawable/icon_top"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/type_video"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_sort_title"
+            android:textSize="12sp"
+            android:drawablePadding="@dimen/sort_linear_layout_text_padding"
+            android:drawableTop="@drawable/icon_sort"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/type_game"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_game_title"
+            android:textSize="12sp"
+            android:drawablePadding="@dimen/sort_linear_layout_text_padding"
+            android:drawableTop="@drawable/icon_game"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/type_camera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_shop_title"
+            android:textSize="12sp"
+            android:drawablePadding="@dimen/sort_linear_layout_text_padding"
+            android:drawableTop="@drawable/icon_shop"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:descendantFocusability="blocksDescendants"
-        ></ListView>
-</merge>
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_divider_height"
+            android:background="@drawable/app_divdier_bg"
+            android:layout_marginStart="@dimen/sort_linear_layout_padding_x"
+            android:layout_marginEnd="@dimen/sort_linear_layout_padding_x"
+            android:layout_gravity="top|start"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_list_title_margin_top"
+            android:text="@string/app_list_title"
+            android:layout_marginStart="@dimen/sort_linear_layout_padding_x"
+            android:layout_gravity="top|start"
+            android:textSize="14sp"/>
+
+        <com.ice.bitmaputils.view.MaxListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_gravity="top|start"
+            android:visibility="visible"
+            android:divider="@null"
+            android:layout_marginTop="@dimen/app_divider_height"
+            ></com.ice.bitmaputils.view.MaxListView>
+
+    </FrameLayout>
+
+</LinearLayout>
+</ScrollView>

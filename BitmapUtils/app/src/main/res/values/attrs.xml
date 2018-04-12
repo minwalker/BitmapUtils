@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="progressbutton">
+        <attr name="maxProgress" format="integer"/>
+        <attr name="foreGroundColor" format="color"/>
+        <attr name="backGroundColor" format="color"/>
+        <attr name="perTextColor" format="color"/>
+        <attr name="buttonCornerRadius" format="float"/>
+        <attr name="padding_y" format="dimension"/>
+        <attr name="padding_x" format="dimension"/>
+        <attr name="download_text" format="string"/>
+        <attr name="complete_text" format="string"/>
+        <attr name="cancle_text" format="string"/>
+        <attr name="installed_text" format="string"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="text_spacing" format="float"/>
+        <attr name="divider_width" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="backgroundview">
+        <attr name="rectSize" format="dimension"/>
+        <attr name="beginColor" format="color"/>
+        <attr name="endColor" format="color"/>
+        <attr name="isRect" format="boolean"/>
+        <attr name="corner" format="dimension"/>
+        <attr name="foreBitmap" format="reference"/>
+        <attr name="autoRecycle" format="boolean"/>
+    </declare-styleable>
+</resources>

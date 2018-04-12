@@ -207,6 +207,11 @@ public class HttpService extends IntentService {
         mBuilder.setSmallIcon(android.R.drawable.stat_sys_download);
         mBuilder.setOngoing(true);
         mBuilder.setProgress(100,0,false);
+        Intent mProgressIntent = new Intent();
+        mProgressIntent.setAction("com.http.progress.refresh");
+        mProgressIntent.putExtra("app_url",current_url);
+        mProgressIntent.putExtra("progress",0);
+        sendBroadcast(mProgressIntent);
         curProgress = 0;
         startForeground(100, mBuilder.build());
 //        mNotificationManager.notify(100,mBuilder.build());

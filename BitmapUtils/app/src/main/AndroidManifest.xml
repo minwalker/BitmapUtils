@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -19,11 +20,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.BitmapUtilsAcivity"/>
-        <activity android:name=".activity.CornerBitmapActivity"/>
-        <activity android:name=".activity.SaveBitmapActivity"/>
-        <activity android:name=".activity.HttpActivity"/>
+        <activity android:name=".activity.BitmapUtilsAcivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CornerBitmapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SaveBitmapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.HttpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActoinBar"/>
+        <activity android:name=".activity.AppInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActoinBarFits"/>
+        <activity android:name=".activity.AppListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActoinBarFits"/>
         <service android:name=".services.HttpService"/>
+
         <provider
             android:authorities="com.ice.bitmaputils.fileprovider"
             android:name="android.support.v4.content.FileProvider"
@@ -34,5 +47,6 @@
                 android:resource="@xml/file_paths"
                 />
         </provider>
+
     </application>
 </manifest>

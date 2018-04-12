@@ -1,16 +1,24 @@
 package com.ice.bitmaputils.data;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by minwalker on 2018/3/10.
  */
 
-public class AppInfoData {
+public class AppInfoData implements Serializable{
     private String name;
     private String url;
     private String descri;
     private String version;
     private String app_url;
     private String pk_name;
+    private String app_size;
+    private float app_rate;
+    private int app_type;
+    private ArrayList<String> img_list;
 
     public String getName() {
         return name;
@@ -58,5 +66,37 @@ public class AppInfoData {
 
     public void setPackageName(String pk_name) {
         this.pk_name = pk_name;
+    }
+
+    public void setAppSize(String app_size) {
+        this.app_size = app_size;
+    }
+
+    public String getAppSize() {
+        return app_size;
+    }
+
+    public void setAppRate(float app_rate){
+        this.app_rate = app_rate;
+    }
+
+    public int getAppTyep() {
+        return app_type;
+    }
+
+    public void setAppType(int app_type){
+        this.app_type = app_type;
+    }
+
+    public float getAppRate(){
+        return app_rate;
+    }
+
+    public void setImageList(ArrayList<String> img_list) {
+        this.img_list = img_list;
+    }
+
+    public ArrayList<String> getImageList() {
+        return img_list;
     }
 }

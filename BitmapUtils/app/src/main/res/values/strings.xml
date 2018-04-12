@@ -18,6 +18,14 @@
 
     <string name="progress_btn_percent">"<xliff:g id="percent">%1$d</xliff:g>%%"</string>
     <string name="progress_btn_download">Download</string>
-    <string name="progress_btn_complete">Complete</string>
+    <string name="progress_btn_complete">Install</string>
     <string name="progress_btn_cancel">Cancel</string>
+    <string name="progress_btn_installed">Installed</string>
+
+    <string name="app_sort_title">"Vedio"</string>
+    <string name="app_game_title">"Game"</string>
+    <string name="app_shop_title">"Camera"</string>
+    <string name="app_base_title">"Top"</string>
+
+    <string name="app_list_title">"Hot List"</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="img_size">100dp</dimen>
+
     <dimen name="item_padding_x">16dp</dimen>
     <dimen name="item_padding_y">10dp</dimen>
     <dimen name="item_icon_size">50dp</dimen>
@@ -18,4 +19,40 @@
     <item name="text_spaces" format="float" type="dimen">0.08</item>
 
     <dimen name="progress_divdier">1px</dimen>
+    <dimen name="divdier_height">1px</dimen>
+
+    <dimen name="top_background_height">150dp</dimen>
+    <dimen name="app_rect_height">174dp</dimen>
+    <dimen name="app_rect_width">300dp</dimen>
+    <dimen name="app_rect_corner">6dp</dimen>
+
+    <dimen name="view_flipper_magrin_top">74dp</dimen>
+    <dimen name="sort_linear_layout_height">125dp</dimen>
+    <dimen name="sort_linear_layout_padding_y">24dp</dimen>
+    <dimen name="sort_linear_layout_padding_x">16dp</dimen>
+    <dimen name="sort_linear_layout_text_padding">2dp</dimen>
+
+    <dimen name="app_divider_height">30dp</dimen>
+    <dimen name="app_list_title_margin_top">10dp</dimen>
+
+    <dimen name="app_info_top_height">165dp</dimen>
+    <dimen name="app_info_center_height">320dp</dimen>
+
+    <dimen name="app_info_card_width">144dp</dimen>
+    <dimen name="app_info_card_height">230dp</dimen>
+    <dimen name="app_info_img_width">136dp</dimen>
+
+    <dimen name="app_info_text_max_width">80dp</dimen>
+    <dimen name="app_info_text_padding_y">8dp</dimen>
+    <dimen name="app_info_bottom_height">60dp</dimen>
+
+    <dimen name="app_info_progress_width">300dp</dimen>
+    <dimen name="app_info_progress_height">40dp</dimen>
+
+    <item name="app_info_corner_radius" format="float" type="dimen">40.0</item>
+    <item name="app_info_text_size" format="integer" type="dimen">24</item>
+
+    <dimen name="app_size_padding_x">4dp</dimen>
+
+
 </resources>

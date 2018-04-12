@@ -10,11 +10,12 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/item_icon_size"
-        android:layout_height="@dimen/item_icon_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:src="@drawable/default_icon"/>
 
     <TextView
         android:id="@+id/title"
@@ -68,6 +69,7 @@
         app:download_text="@string/progress_btn_download"
         app:complete_text="@string/progress_btn_complete"
         app:cancle_text="@string/progress_btn_cancel"
+        app:installed_text="@string/progress_btn_installed"
         app:text_spacing ="@dimen/text_spaces"
         app:divider_width="@dimen/progress_divdier"
         />

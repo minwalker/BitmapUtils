@@ -6,11 +6,31 @@
 
     <color name="begin_color">#60ffffff</color>
     <color name="end_color">#00ffffff</color>
+
     <color name="item_title_color">#ff4e4e4e</color>
     <color name="item_summary_color">#ffaeaeae</color>
     <color name="item_version_color">#ff6d6d6d</color>
 
-    <color name="progress_fore_color">#ff00ddff</color>
-    <color name="progress_back_color">#ff00ddff</color>
-    <color name="progress_text_color">#3F51B5</color>
+    <color name="progress_fore_color">#fffdc9d6</color><!-- #ff00ddff -->
+    <color name="progress_back_color">#fffdc9d6</color><!-- #ff00ddff -->
+    <color name="progress_text_color">#fffdb2c2</color><!-- #3f51b5 -->
+
+    <color name="backgroud_top_begin_color">#ffff879d</color>
+    <color name="backgroud_top_end_color">#ffffbf8b</color>
+
+    <color name="app_card_begin_color_one">#fffdb2c2</color>
+    <color name="app_card_end_color_one">#fffdc9d6</color>
+
+    <color name="app_card_begin_color_two">#fff2859c</color>
+    <color name="app_card_end_color_two">#fff29cb1</color>
+
+    <color name="app_card_begin_color_three">#ffff996a</color>
+    <color name="app_card_end_color_three">#ffffb18e</color>
+
+    <color name="app_linear_divdier_start_color">#fffff1f4</color>
+    <color name="app_linear_divdier_end_color">#fffff9fa</color>
+
+    <color name="app_info_divdier_color">#ffe5e5e5</color>
+    <color name="app_info_background_color">#fffffffe</color>
+    <color name="app_info_bottom_background_color">#ffffffff</color>
 </resources>

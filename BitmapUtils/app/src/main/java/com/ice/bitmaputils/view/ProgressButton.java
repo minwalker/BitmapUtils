@@ -3,6 +3,7 @@ package com.ice.bitmaputils.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -40,6 +41,7 @@ public class ProgressButton extends View {
 
     private String mDownLoadText;
     private String mCompleteText;
+    private String mInstalledText;
     private String mCancelText;
 
     private Paint mPaint;
@@ -91,6 +93,7 @@ public class ProgressButton extends View {
             mDownLoadText = attrs.getString(R.styleable.progressbutton_download_text);
             mCompleteText = attrs.getString(R.styleable.progressbutton_complete_text);
             mCancelText = attrs.getString(R.styleable.progressbutton_cancle_text);
+            mInstalledText = attrs.getString(R.styleable.progressbutton_installed_text);
 
             mTextSize = attrs.getInt(R.styleable.progressbutton_text_size, 18);
             mTextSpace = attrs.getFloat(R.styleable.progressbutton_text_spacing,0.08f);
@@ -109,7 +112,7 @@ public class ProgressButton extends View {
             mPaint.setAntiAlias(true);
             mXferMode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
             mClearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
-            mProgress = 0;
+            mProgress = -1;
         }
 
         if(mTextPaint == null) {
@@ -158,7 +161,8 @@ public class ProgressButton extends View {
      * @param canvas Canvas of this view
      * **/
     private void drawProgress(Canvas canvas) {
-        float right = (mWidth-mPaddingX)*(mProgress*1.0f/mMaxProgress);
+        int progress = mProgress > 100?100:mProgress;
+        float right = (mWidth-mPaddingX)*(progress*1.0f/mMaxProgress);
         if(right > mPaddingX) {
             mForeRect.set(mPaddingX, mPaddingY, right, mHeight - mPaddingY);
 
@@ -184,12 +188,29 @@ public class ProgressButton extends View {
      * @param canvas Canvas of this view
      * **/
     private void drawText(Canvas canvas) {
-        if(mProgress <= 0) {
+        if(mProgress < 0) {
+            mTextPaint.setColor(mTextColor);
             canvas.drawText(mDownLoadText, mWidth * 0.5f, centerY * 0.5f, mTextPaint);
-        } else if(mProgress >= 100) {
+        } else if(mProgress == 100) {
+            mTextPaint.setColor(Color.WHITE);
             canvas.drawText(mCompleteText, mWidth * 0.5f, centerY * 0.5f, mTextPaint);
+        } else if(mProgress > 100){
+            mTextPaint.setColor(Color.WHITE);
+            canvas.drawText(mInstalledText, mWidth * 0.5f, centerY * 0.5f, mTextPaint);
         } else {
+            float right = (mWidth-mPaddingX)*(mProgress*1.0f/mMaxProgress);
             canvas.drawText(getResources().getString(R.string.progress_btn_percent,mProgress), mWidth * 0.5f, centerY * 0.5f, mTextPaint);
+            if(right > mPaddingX) {
+                mForeRect.set(mPaddingX, mPaddingY, right, mHeight - mPaddingY);
+                int save = canvas.saveLayer(mBackRect, null);
+                canvas.drawText(getResources().getString(R.string.progress_btn_percent,mProgress), mWidth * 0.5f, centerY * 0.5f, mTextPaint);
+                mPaint.setStyle(Paint.Style.FILL);
+                mPaint.setColor(Color.WHITE);
+                mPaint.setXfermode(mXferMode);
+                canvas.drawRect(mForeRect,mPaint);
+                mPaint.setXfermode(null);
+                canvas.restoreToCount(save);
+            }
         }
     }
 

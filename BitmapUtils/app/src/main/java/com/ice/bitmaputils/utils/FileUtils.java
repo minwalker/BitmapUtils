@@ -1,7 +1,10 @@
 package com.ice.bitmaputils.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.ice.bitmaputils.R;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -96,6 +99,15 @@ public class FileUtils {
         }
 
         return false;
+    }
+
+    public static boolean isApkExist(Context context, String app_url){
+        StringBuilder pathBuild = new StringBuilder();
+        pathBuild.append(context.getResources().getString(R.string.download_default_path));
+        pathBuild.append(app_url.substring(app_url.lastIndexOf('/')+1,app_url.length()));
+        String apkPath = pathBuild.toString();
+        File file = new File(apkPath);
+        return file.exists();
     }
 
     public static String ParseMd5(String data) throws NoSuchAlgorithmException {

@@ -164,7 +164,7 @@ public class BitmapUtils {
      * @param options target bitmap decode option, ARGB8888, ARGB4444, RGB565...
      * @return result scale bitmap or null
      * */
-    public static Bitmap createScaleBitmapFromFile(String path, int width, int height, BitmapFactory.Options options) {
+    public static Bitmap createScaleBitmapFromFile(String path, int width, int height, BitmapFactory.Options options, boolean scale) {
         if(TextUtils.isEmpty(path)) {
             Log.e(TAG,"createScaleBitmapFromFile fail for path is empty");
             return null;
@@ -193,7 +193,9 @@ public class BitmapUtils {
 
             options.inJustDecodeBounds = false;
             bitmap = BitmapFactory.decodeFile(path, options);
-            bitmap = createScaleBitmap(bitmap,width,height);
+            if(scale) {
+                bitmap = createScaleBitmap(bitmap, width, height);
+            }
             return bitmap;
         } catch (Exception e) {
             e.printStackTrace();
@@ -318,7 +320,7 @@ public class BitmapUtils {
      * @param options target bitmap decode option, ARGB8888, ARGB4444, RGB565...
      * @return result scale bitmap or null
      * */
-    public static Bitmap createScaleFromBytes(byte[] bytes, int width, int height, BitmapFactory.Options options) {
+    public static Bitmap createScaleFromBytes(byte[] bytes, int width, int height, BitmapFactory.Options options, boolean scale) {
         if(bytes==null || bytes.length<=0) {
             Log.e(TAG,"createScaleFromBytes fail for bytes is invalid");
             return null;
@@ -347,7 +349,9 @@ public class BitmapUtils {
 
             options.inJustDecodeBounds = false;
             bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length,options);
-            bitmap = createScaleBitmap(bitmap,width,height);
+            if(scale) {
+                bitmap = createScaleBitmap(bitmap, width, height);
+            }
             return bitmap;
         } catch (Exception e) {
             e.printStackTrace();

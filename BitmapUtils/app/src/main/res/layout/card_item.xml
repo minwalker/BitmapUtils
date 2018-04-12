@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.ice.bitmaputils.view.BackgroundView
+        android:id="@+id/card_icon"
+        android:layout_width="@dimen/app_info_card_width"
+        android:layout_height="@dimen/app_info_card_height"
+        app:beginColor="@color/app_card_begin_color_one"
+        app:endColor="@color/app_card_end_color_one"
+        app:isRect="true"
+        app:corner="@dimen/app_rect_corner"
+        app:rectSize="@dimen/app_info_img_width"
+        >
+
+    </com.ice.bitmaputils.view.BackgroundView>
+</LinearLayout>
