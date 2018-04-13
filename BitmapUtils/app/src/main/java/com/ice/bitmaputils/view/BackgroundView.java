@@ -3,6 +3,7 @@ package com.ice.bitmaputils.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -17,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ice.bitmaputils.BuildConfig;
 import com.ice.bitmaputils.R;
 import com.ice.bitmaputils.utils.BitmapUtils;
 
@@ -71,10 +73,14 @@ public class BackgroundView extends View {
             autoRecycle = attrs.getBoolean(R.styleable.backgroundview_autoRecycle,false);
             mCorner = attrs.getDimensionPixelOffset(R.styleable.backgroundview_corner, 0);
             mRectSize = attrs.getDimensionPixelOffset(R.styleable.backgroundview_rectSize, 0);
-            Drawable mDrawable = attrs.getDrawable(R.styleable.backgroundview_foreBitmap);
-            if(isRect && mDrawable!=null) {
-                mBitmap = BitmapUtils.CornerBitmapUtils.getCornerBitmap(((BitmapDrawable)mDrawable).getBitmap().copy(Bitmap.Config.ARGB_8888,true),
-                        mCorner, BitmapUtils.CornerBitmapUtils.CORNER_ALL);
+            int resId = attrs.getResourceId(R.styleable.backgroundview_foreBitmap, 0);
+            if(resId > 0) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = BuildConfig.HIGH_ARGB
+                        ?Bitmap.Config.ARGB_8888:Bitmap.Config.ARGB_4444;
+                mBitmap = BitmapFactory.decodeResource(context.getResources(),resId,options);
+                mBitmap = BitmapUtils.CornerBitmapUtils.getCornerBitmap(mBitmap, mCorner,
+                        BitmapUtils.CornerBitmapUtils.CORNER_ALL);
             }
         } catch (Exception e) {
             e.printStackTrace();

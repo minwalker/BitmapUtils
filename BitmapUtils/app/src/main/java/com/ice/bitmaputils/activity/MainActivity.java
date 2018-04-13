@@ -1,6 +1,9 @@
 package com.ice.bitmaputils.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +20,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+            this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
+
         mEnterBitmapBtn = (Button) findViewById(R.id.enter_bitmap_btn);
         mEnterCornerBtn = (Button) findViewById(R.id.enter_corner_btn);
         mEnterSaveBtn = (Button) findViewById(R.id.enter_save_btn);
@@ -26,6 +34,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEnterCornerBtn.setOnClickListener(this);
         mEnterSaveBtn.setOnClickListener(this);
         mEnterHttpBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 100) {
+            if(permissions[0]!=null && permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                finish();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

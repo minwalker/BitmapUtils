@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.ice.bitmaputils.BuildConfig;
 import com.ice.bitmaputils.R;
 import com.ice.bitmaputils.data.AppInfoData;
 import com.ice.bitmaputils.services.HttpService;
@@ -44,6 +47,7 @@ public class AppInfoActivity extends BaseHttpActivity implements View.OnClickLis
     private AppInfoData mData;
     private HandlerThread mImageThread;
     private Handler mImageHandler;
+    private BitmapFactory.Options mOption;
 
     private final int MSG_LOAD_TOP = 1;
     private final int MSG_LOAD_PAGER = 2;
@@ -64,6 +68,9 @@ public class AppInfoActivity extends BaseHttpActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_info_layout);
         mData = (AppInfoData) getIntent().getSerializableExtra("app_info");
+        mOption = new BitmapFactory.Options();
+        mOption.inPreferredConfig = BuildConfig.HIGH_ARGB
+                ?Bitmap.Config.ARGB_8888:Bitmap.Config.ARGB_4444;
         initView();
         initThread();
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(AppInfoActivity.this,
@@ -152,7 +159,8 @@ public class AppInfoActivity extends BaseHttpActivity implements View.OnClickLis
                         case MSG_LOAD_PAGER:
                             int width = getResources().getDimensionPixelOffset(R.dimen.app_info_img_width);
                             int height = getResources().getDimensionPixelOffset(R.dimen.app_info_card_height);
-                            loadRemoteOrLocalImage((String) msg.obj, mInfoPager, width, height,true);
+                            loadRemoteOrLocalImage((String) msg.obj, mInfoPager,
+                                    width, height,true, mOption);
                             break;
                     }
                 }

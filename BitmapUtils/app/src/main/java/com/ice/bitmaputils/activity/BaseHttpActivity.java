@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ice.bitmaputils.BuildConfig;
 import com.ice.bitmaputils.R;
 import com.ice.bitmaputils.data.AppInfoData;
 import com.ice.bitmaputils.services.HttpService;
@@ -85,7 +87,10 @@ public class BaseHttpActivity extends Activity {
     }
 
     protected void loadRemoteOrLocalImage(final String url,final View parent, final int width, final int height) {
-        loadRemoteOrLocalImage(url,parent,width,height,false);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = BuildConfig.HIGH_ARGB
+                ?Bitmap.Config.ARGB_8888:Bitmap.Config.ARGB_4444;
+        loadRemoteOrLocalImage(url,parent,width,height,false,options);
     }
 
     /**
@@ -93,7 +98,8 @@ public class BaseHttpActivity extends Activity {
      * local cache has it get local otherwise load remote
      * @param url remote image url
      * **/
-    protected synchronized void loadRemoteOrLocalImage(final String url,final View parent, final int width, final int height,boolean corner){
+    protected synchronized void loadRemoteOrLocalImage(final String url, final View parent,
+                                           final int width, final int height, boolean corner, BitmapFactory.Options options){
         try {
             if(mCache!=null && mCache.get(url)!=null) {
                 runOnUiThread(new Runnable() {
@@ -115,10 +121,10 @@ public class BaseHttpActivity extends Activity {
             File file = new File("/storage/emulated/0/my_app_cache/" + path_md5 + ".webp");
             Log.d(TAG,"loadRemoteImage file: "+(file!=null?file.exists():null));
             if (file!=null && file.exists()) {
-                getLocalImage(url,path_md5,parent,width,height);
+                getLocalImage(url,path_md5,parent,width,height,options);
                 return;
             } else {
-                getRemoteImage(url,parent,width,height,corner);
+                getRemoteImage(url,parent,width,height,corner,options);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,12 +138,13 @@ public class BaseHttpActivity extends Activity {
      * @param url origin remote url
      * @param path md5 format remonte url
      * **/
-    private void getLocalImage(final String url,String path,final View parent, final int width, final int height){
+    private void getLocalImage(final String url, String path, final View parent, final int width,
+                               final int height, BitmapFactory.Options options){
         if(TextUtils.isEmpty(url)) {
             return;
         }
         final Bitmap file_bitmap = BitmapUtils.createScaleBitmapFromFile("/storage/emulated/0/my_app_cache/" + path + ".webp",
-                width,height,null, true);
+                width,height,options, true);
         if(mCache.get(url)==null) {
             mCache.put(url, file_bitmap);
         }
@@ -167,7 +174,8 @@ public class BaseHttpActivity extends Activity {
      * method for get remote image by http if local no exit
      * @param url remote image url
      * **/
-    private void getRemoteImage(final String url,final View parent,final int width, final int height,final boolean corner){
+    private void getRemoteImage(final String url, final View parent, final int width, final int height,
+                                final boolean corner, final BitmapFactory.Options options){
         if(mClient == null) {
             mClient = new OkHttpClient.Builder()
                     .connectTimeout(10000, TimeUnit.MILLISECONDS)
@@ -198,7 +206,7 @@ public class BaseHttpActivity extends Activity {
                             InputStream imgStream = response.body().byteStream();
                             String path = "/storage/emulated/0/my_app_cache/"+FileUtils.ParseMd5(url);
                             FileUtils.saveFile(path,imgStream);
-                            Bitmap bitmap = BitmapUtils.createScaleBitmapFromFile(path, width, height,null, true);
+                            Bitmap bitmap = BitmapUtils.createScaleBitmapFromFile(path, width, height,options, true);
                             boolean result = FileUtils.deleteFile(path);
                             Log.d(TAG,"delete origin file: "+result);
                             //Bitmap bitmap = BitmapUtils.createScaleFromBytes(img_bytes, width, height,null, true);

@@ -6,11 +6,30 @@ android {
         applicationId "com.ice.bitmaputils"
         minSdkVersion 23
         targetSdkVersion 27
+        flavorDimensions "versionCode"
         versionCode 1
         versionName "1.0"
     }
+
+    productFlavors {
+        high_quality {
+            buildConfigField "boolean", "HIGH_ARGB", "true"
+            manifestPlaceholders = [CHANNEL_VALUE: "heigh_qulity", APP_NAME: "@string/app_name",APP_ICON:"@mipmap/ic_launcher"]
+        }
+
+        middle_quality {
+            buildConfigField "boolean", "HIGH_ARGB", "false"
+            manifestPlaceholders = [CHANNEL_VALUE: "heigh_qulity", APP_NAME: "@string/app_name",APP_ICON:"@mipmap/ic_launcher"]
+        }
+    }
+
     buildTypes {
         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
