@@ -25,7 +25,7 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 ## utils tool description
 ![](/BitmapUtils/screen_capture/bitmap_log.png)
 
-	above image is the log of BitmapUtilsActivity in SampleSize but not createScaleBitmap and using 
+	above image is the log of BitmapUtilsActivity inSampleSize but not createScaleBitmap and using 
 	createScaleBitmap, we found just in sampleSize can get less memory than origin bitmap, but it's
 	width and height is not the same with our target (200,200), sampleSize can only be close to the
 	target(some time is same), so most time it will be big than our target.
@@ -35,6 +35,16 @@ a simple bitmap utils for android bitmap in a simple way useless memory and othe
 	forget to recycle the bitmap of this operation which never use again, and you need to judge 
 	whether the origin bitmap is the same as createScaleBitmap, this same times happend to origin
 	bitmap is the same size as createScaleBitmap.
+	
+	but, why don't we use createScaleBitmap once(result bitmap object can get the same memory), seen
+	we don't need to use inSampleSize.we can found the answer in below bitmap. first, createScaleBitmap
+	needs an Origin bitmap, so we must create an Origin bitmap(use 2694KB before we recylce it, if it's
+	a big bitmap will be more which can easy cause OOM),then we use createScaleBitmap, used time can be
+	29ms(26ms used by create Origin bitmap, and 3ms used scale).
+	
+	but if we use inSampleSize(use 156KB before we recycle it, will be more less than origin), then use 
+	createScaleBitmap, total used time is 14ms(13ms used by inSampleSize create a bitmap, and 1ms used by
+	scale) will more less than using above both in memory and time.
 	
 	finaly, we get the below resuly:
 ![](/BitmapUtils/screen_capture/bitmap_utils_page.png)
