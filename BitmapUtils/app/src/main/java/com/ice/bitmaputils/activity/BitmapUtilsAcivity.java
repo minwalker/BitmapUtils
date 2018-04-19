@@ -19,9 +19,9 @@ import com.ice.bitmaputils.utils.BitmapUtils;
 public class BitmapUtilsAcivity extends Activity {
 
     private final static String TAG = "BitmapUtilsAcivity";
-    private ImageView mOriginView, mSampleView, mUtilsView;
-    private TextView mOriginTitle, mSampleTitle, mUtilsTitle;
-    private Bitmap mOriginBitmap, mSampleBitmap, mUtilsBitmap;
+    private ImageView mOriginView, mSampleView, mScaleView, mUtilsView;
+    private TextView mOriginTitle, mSampleTitle, mScaleTitle, mUtilsTitle;
+    private Bitmap mOriginBitmap, mSampleBitmap, mScaleBitmap, mUtilsBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,24 +32,41 @@ public class BitmapUtilsAcivity extends Activity {
 
         mOriginView = findViewById(R.id.origin_img);
         mSampleView = findViewById(R.id.sample_img);
+        mScaleView = findViewById(R.id.scale_img);
         mUtilsView = findViewById(R.id.utils_img);
 
         mOriginTitle = findViewById(R.id.origin_title);
         mSampleTitle = findViewById(R.id.sample_title);
+        mScaleTitle = findViewById(R.id.scale_title);
         mUtilsTitle = findViewById(R.id.utils_title);
 
+        long begin_time = System.currentTimeMillis();
         mOriginBitmap = getmOriginBitmap(R.drawable.test_decode);
-        mSampleBitmap = getSampleBitmap(R.drawable.test_decode,bitmap_size,bitmap_size);
-        mUtilsBitmap = BitmapUtils.createScaleBitmapFromRes(this,R.drawable.test_decode,bitmap_size,bitmap_size,null);
-
+        begin_time = (System.currentTimeMillis() - begin_time);
         mOriginView.setImageBitmap(mOriginBitmap);
-        mOriginTitle.setText(mOriginBitmap!=null&&!mOriginBitmap.isRecycled() ? "origin bitmap "+formatbitToKB(mOriginBitmap.getByteCount()):null);
+        mOriginTitle.setText((mOriginBitmap!=null&&!mOriginBitmap.isRecycled() ? "origin bitmap "+formatbitToKB(mOriginBitmap.getByteCount()):null)
+                +"\nused time: "+(begin_time)+" ms");
 
+        begin_time = System.currentTimeMillis();
+        mSampleBitmap = getSampleBitmap(R.drawable.test_decode,bitmap_size,bitmap_size);
+        begin_time = (System.currentTimeMillis() - begin_time);
         mSampleView.setImageBitmap(mSampleBitmap);
-        mSampleTitle.setText(mSampleBitmap!=null&&!mSampleBitmap.isRecycled() ? "sample bitmap "+formatbitToKB(mSampleBitmap.getByteCount()):null);
+        mSampleTitle.setText((mSampleBitmap!=null&&!mSampleBitmap.isRecycled() ? "sample bitmap "+formatbitToKB(mSampleBitmap.getByteCount()):null)
+                +"\nused time: "+(begin_time)+" ms");
 
+        begin_time = System.currentTimeMillis();
+        mScaleBitmap = Bitmap.createScaledBitmap(getmOriginBitmap(R.drawable.test_decode),bitmap_size,bitmap_size,true);
+        begin_time = (System.currentTimeMillis() - begin_time);
+        mScaleView.setImageBitmap(mScaleBitmap);
+        mScaleTitle.setText((mScaleBitmap!=null&&!mScaleBitmap.isRecycled() ? "scale bitmap: "+formatbitToKB(mScaleBitmap.getByteCount()):null)
+                +"\nused time: "+(begin_time)+" ms");
+
+        begin_time = System.currentTimeMillis();
+        mUtilsBitmap = BitmapUtils.createScaleBitmapFromRes(this,R.drawable.test_decode,bitmap_size,bitmap_size,null);
+        begin_time = (System.currentTimeMillis() - begin_time);
         mUtilsView.setImageBitmap(mUtilsBitmap);
-        mUtilsTitle.setText(mUtilsBitmap!=null&&!mUtilsBitmap.isRecycled() ? "utils bitmap "+formatbitToKB(mUtilsBitmap.getByteCount()):null);
+        mUtilsTitle.setText((mUtilsBitmap!=null&&!mUtilsBitmap.isRecycled() ? "utils bitmap "+formatbitToKB(mUtilsBitmap.getByteCount()):null)
+                +"\nused time: "+(begin_time)+" ms");
 
 
     }
@@ -66,6 +83,10 @@ public class BitmapUtilsAcivity extends Activity {
 
         if(mUtilsBitmap!=null && !mUtilsBitmap.isRecycled()) {
             mUtilsBitmap.recycle();
+        }
+
+        if(mScaleBitmap!=null && !mScaleBitmap.isRecycled()) {
+            mScaleBitmap.recycle();
         }
         super.onDestroy();
     }
